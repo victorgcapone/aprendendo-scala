@@ -1,0 +1,12 @@
+// Gradle build definiton file
+apply plugin: 'scala'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.scala-saddle', name: 'saddle_2.10', version: '1.3.0'
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.10.4'
+
+}
