@@ -1,7 +1,6 @@
 package scala.learning
 
-class IntegerIterator(s: Array[Integer]) {
-  type Integer;
+class IntegerIterator(s: Array[Integer]) extends AbstractIterator[Integer] {
   private var current = 0;
   def hasNext = current < s.length;
   def next = {

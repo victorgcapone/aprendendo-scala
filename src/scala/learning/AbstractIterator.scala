@@ -1,7 +1,6 @@
 package scala.learning
 
-trait AbstractIterator {
-  type T;
+trait AbstractIterator[T] {
   def hasNext : Boolean;
   def next : T;
 }
