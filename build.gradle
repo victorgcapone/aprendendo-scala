@@ -20,7 +20,15 @@ repositories {
 }
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.12.6'
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-actuator")}
+    compile 'org.apache.spark:spark-core_2.11:2.1.0'
+    compile 'org.apache.spark:spark-sql_2.11:2.1.0'
+    compile 'org.apache.spark:spark-mllib_2.10:1.0.0'
+    compile("org.springframework.boot:spring-boot-starter-web"){
+        exclude module: "spring-boot-starter-logging"
+        exclude module: "logback-classic"
+    }
+    compile("org.springframework.boot:spring-boot-starter-actuator"){
+        exclude module: "logback-classic"
+    }
+}
 
