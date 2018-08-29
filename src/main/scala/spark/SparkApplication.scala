@@ -1,7 +1,9 @@
 package spark
 
+
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.array
 
 object SparkApplication {
   Logger.getLogger("org").setLevel(Level.ERROR)
@@ -11,6 +13,7 @@ object SparkApplication {
       .appName("spark-app")
       .config("spark.master", "local")
       .getOrCreate()
+    import spark.implicits._
     // Lê o nosso CSV
     val data = spark.read
       .format("csv")
@@ -21,11 +24,17 @@ object SparkApplication {
     // Imprime alguns dados
     data.explain()
     data.printSchema()
-    // Retorna todos os records cujo a primeira coluna tem valor maior 6
-    val newData = data.filter({
-      _.getDouble(0) > 6
-    })
-    print(newData.count())
+    //Agrupa as features em uma única coluna vetor
+    val groupedData = data.select(array($"petal_length", $"petal_width",
+                                            $"sepal_length", $"sepal_width") as "features",
+                                      $"species" as "label")
+    groupedData.printSchema()
+    groupedData.show(10)
+    // Amostra de 70% sem reposição para o treino
+    val train = data.sample(false, 0.7)
+    // O resto é teste
+    val test = data.except(train)
+    println(test.count(), train.count())
     spark.stop()
   }
 }
