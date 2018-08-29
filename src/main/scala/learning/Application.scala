@@ -14,6 +14,7 @@ object Application {
     }
 
     var filtered = new IntegerIterator(filter.filter(it))
+
     while (filtered hasNext){
       println(filtered next)
     }
