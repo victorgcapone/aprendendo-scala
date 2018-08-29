@@ -27,14 +27,15 @@ object SparkApplication {
     //Agrupa as features em uma única coluna vetor
     val groupedData = data.select(array($"petal_length", $"petal_width",
                                             $"sepal_length", $"sepal_width") as "features",
-                                      $"species" as "label")
+                                        $"species" as "label")
     groupedData.printSchema()
     groupedData.show(10)
     // Amostra de 70% sem reposição para o treino
-    val train = data.sample(false, 0.7)
+    val train = groupedData.sample(false, 0.7)
     // O resto é teste
-    val test = data.except(train)
+    val test = groupedData.except(train)
     println(test.count(), train.count())
+
     spark.stop()
   }
 }
